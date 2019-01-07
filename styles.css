@@ -1,0 +1,38 @@
+body
+{
+    text-align:center;
+    background-color: #c0ffff;
+}
+
+header
+{
+    font-size:large;
+    font-weight:bold;
+}
+
+footer
+{
+    font-size:small;
+    color:red;
+}
+
+p
+{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+h4
+{
+    line-height: 1.3;
+}
+
+.bg-light
+{ /* Replaces item in Bootstrap.css */
+    background-color: #FFF2C3 !important;
+}
+
+.active
+{ /* Replaces item in Bootstrap.css */
+    font-weight:bold;
+}
