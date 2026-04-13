@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Batman and Superman",
+    "overline": "THE HERO WE NEED",
+    "summary": "From my Idea Catcher in 2013. I'm happy to say that the 2025 Superman movie gets it.",
+    "slug": "2026-04-13-batman-and-superman",
+    "date": "2026-04-13",
+    "tags": ["Reviews"],
+    "url": "/posts/2026-04-13-batman-and-superman.html",
+    "type": "article",
+    "image_url": "/posts/images/hero1.jpg",
+    "image_type": "hero",
+    "column_span": 2
+  },
+  {
+    "title": "Black Bean and Pork Shoulder Soup",
+    "overline": "BATCH COOKING",
+    "summary": "A freezer-friendly soup that gets better on day two. 345 calories per serving, 28g protein.",
+    "slug": "2026-04-08-black-bean-soup",
+    "date": "2026-04-08",
+    "tags": ["Cooking"],
+    "url": "/posts/2026-04-08-black-bean-soup.html",
+    "type": "article",
+    "image_url": "/posts/images/2026-04-08-black-bean-soup.jpg",
+    "image_type": "main",
+    "column_span": 1
+  },
+  {
+    "title": "Shinyribs at Red Clay Music Foundry",
+    "overline": "",
+    "summary": "",
+    "slug": "2026-03-28-shinyribs-live",
+    "date": "2026-03-28",
+    "tags": ["Videos", "Music", "Reviews"],
+    "url": "",
+    "type": "video",
+    "image_url": "/posts/images/2026-03-28-shinyribs.jpg",
+    "image_type": "",
+    "column_span": 2,
+    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_caption": "Shinyribs live at Red Clay Music Foundry, March 2026"
+  }
+]
