@@ -10,6 +10,10 @@
   const MANIFEST_URL   = '/manifest.json';
   const TILES_PER_PAGE = 9;
 
+  // Fixed repeating row pattern: row1=span3, row2=(2,1), row3=(1,2), row4=(1,1,1)
+  // Repeats every 7 articles: [3, 2, 1, 1, 2, 1, 1]
+  const LAYOUT_PATTERN = [3, 2, 1, 1, 2, 1, 1];
+
   // ─── State ────────────────────────────────────────────────────────────────
   let allPosts   = [];   // all manifest entries, sorted newest-first
   let filtered   = [];   // posts after applying the active filter
@@ -21,6 +25,11 @@
   const sentinel = document.getElementById('scroll-sentinel');
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  /** Returns the column span (1, 2, or 3) for a post at position idx in the filtered list. */
+  function columnSpanForIndex(idx) {
+    return LAYOUT_PATTERN[idx % LAYOUT_PATTERN.length];
+  }
 
   /** Returns the active filter string from ?filter=, or null. */
   function activeFilter() {
@@ -56,11 +65,13 @@
 
   /**
    * Builds a tile <article> element for a single manifest entry.
+   * idx is the post's position in the full filtered list (used for layout pattern).
    * Dispatches to the correct tile builder based on post type and image_type.
    */
-  function buildTile(post) {
+  function buildTile(post, idx) {
     var article = document.createElement('article');
-    article.className = 'tile span-' + (post.column_span || 1);
+    var span = columnSpanForIndex(idx);
+    article.className = 'tile span-' + span;
     article.setAttribute('data-tags', JSON.stringify(post.tags || []));
 
     if (post.type === 'video') {
@@ -194,9 +205,10 @@
       return;
     }
 
+    var startIdx = loadedCount; // capture before incrementing
     var frag = document.createDocumentFragment();
-    batch.forEach(function (post) {
-      frag.appendChild(buildTile(post));
+    batch.forEach(function (post, batchIdx) {
+      frag.appendChild(buildTile(post, startIdx + batchIdx));
     });
     grid.appendChild(frag);
     loadedCount += batch.length;
