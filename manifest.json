@@ -9,35 +9,65 @@
     "url": "/posts/2026-04-13-batman-and-superman.html",
     "type": "article",
     "image_url": "/posts/images/hero1.jpg",
-    "image_type": "hero",
-    "column_span": 2
+    "image_type": "hero"
   },
   {
-    "title": "Black Bean and Pork Shoulder Soup",
-    "overline": "BATCH COOKING",
-    "summary": "A freezer-friendly soup that gets better on day two. 345 calories per serving, 28g protein.",
-    "slug": "2026-04-08-black-bean-soup",
-    "date": "2026-04-08",
-    "tags": ["Cooking"],
-    "url": "/posts/2026-04-08-black-bean-soup.html",
-    "type": "article",
-    "image_url": "/posts/images/2026-04-08-black-bean-soup.jpg",
-    "image_type": "main",
-    "column_span": 1
-  },
-  {
-    "title": "Shinyribs at Red Clay Music Foundry",
-    "overline": "",
-    "summary": "",
     "slug": "2026-03-28-shinyribs-live",
     "date": "2026-03-28",
-    "tags": ["Videos", "Music", "Reviews"],
+    "tags": ["Videos", "Music"],
     "url": "",
     "type": "video",
     "image_url": "/posts/images/2026-03-28-shinyribs.jpg",
-    "image_type": "",
-    "column_span": 2,
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "video_caption": "Shinyribs live at Red Clay Music Foundry, March 2026"
+    "video_url": "https://jamesdcage.github.io/video.html?v=dQw4w9WgXcQ&caption=Shinyribs%20live%20at%20Red%20Clay%20Music%20Foundry%2C%20March%202026",
+    "video_caption": "The best show I saw in 2025 was a wild band from Austin, Texas -- Shinyribs!"
+  },
+  {
+    "slug": "2025-04-13-at-the-quarry",
+    "date": "2025-04-13",
+    "tags": ["Videos"],
+    "url": "",
+    "type": "video",
+    "image_url": "/posts/images/2025-04-13-at-the-quarry.jpg",
+    "video_url": "https://www.youtube.com/embed/AlmsB8fdXVk",
+    "video_caption": "One golden day last summer, me and a buddy flew an FPV drone over a gigantic quarry."
+  },
+  {
+    "title": "Are You Angry And Afraid?",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "Anyone who tells you the solution is simple is probably simple, too.",
+    "slug": "2011-07-30-are-you-angry-and-afraid",
+    "date": "2011-07-30",
+    "tags": ["Life"],
+    "url": "/posts/2011-07-30-are-you-angry-and-afraid.html",
+    "type": "article",
+    "image_url": "/posts/images/tax-the-rich.webp",
+    "image_type": "main",
+    "originally": "Originally published on desktopmovies.blogspot.com, July 2011"
+  },
+  {
+    "title": "$17 Music Collection",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "I built my love of music on piles and piles of used CDs. This was a great haul.",
+    "slug": "2010-11-21-17-music-collection",
+    "date": "2010-11-21",
+    "tags": ["Reviews", "Music"],
+    "url": "/posts/2010-11-21-17-music-collection.html",
+    "type": "article",
+    "image_url": "/posts/images/2010-11-21-cd-collection.jpg",
+    "image_type": "main",
+    "originally": "Originally published on desktopmovies.blogspot.com, November 2010"
+  },
+  {
+    "title": "Greenville",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "18 years ago, I found a city that opened my eyes to good urban design and planning.",
+    "slug": "2008-04-29-greenville",
+    "date": "2008-04-29",
+    "tags": ["Life"],
+    "url": "/posts/2008-04-29-greenville.html",
+    "type": "article",
+    "image_url": "/posts/images/2008-04-29-greenville-night.jpg",
+    "image_type": "hero",
+    "originally": "Originally published on desktopmovies.blogspot.com, April 2008"
   }
 ]

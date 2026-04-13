@@ -53,6 +53,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Offset content below the fixed floating header (18px gap + 60px height + 18px gap) */
+  padding-top: 96px;
 }
 
 img {
@@ -102,11 +104,17 @@ p:last-child { margin-bottom: 0; }
    5. Header
    ----------------------------------------------------------------------------- */
 .site-header {
-  position: sticky;
-  top: 0;
+  /* Floating header: fixed position, 18px from top, centered at content width */
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem); /* small side margins on all viewports */
+  max-width: var(--max-content);
   z-index: 100;
   background: var(--color-header-bg);
   border-bottom: 1px solid var(--color-header-border);
+  border-radius: 8px;
   height: var(--header-height);
 }
 
@@ -219,6 +227,7 @@ p:last-child { margin-bottom: 0; }
   background: var(--color-header-bg);
   border-bottom: 1px solid var(--color-header-border);
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 0 0 8px 8px; /* match rounded bottom corners of floating header */
   z-index: 99;
 }
 
@@ -381,12 +390,14 @@ p:last-child { margin-bottom: 0; }
   object-fit: cover;
 }
 
+/* Hero overlay: mobile (1-column tile) = full-width box */
 .tile--hero .tile-hero-overlay {
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  width: min(42%, 280px);
-  min-width: 180px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  min-width: 0;
   background: rgba(245, 245, 245, 0.92);
   padding: 1rem 1.25rem;
 }
@@ -395,7 +406,7 @@ p:last-child { margin-bottom: 0; }
 .tile--video .tile-link {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 280px; /* ensures flex proportions work at all column widths */
 }
 
 .tile--video .tile-video-image-wrap {
@@ -453,15 +464,28 @@ p:last-child { margin-bottom: 0; }
   padding: 2rem 1rem 4rem;
 }
 
-/* Featured image at top of article */
+/* Featured image at top of article — breaks out of 700px column to ~1200px */
 .post-featured-image {
-  margin: 0 -1rem 2rem; /* bleed to edges on mobile */
+  /* Full-bleed breakout: centers the image on the viewport regardless of column width.
+     Formula: 50% = half of parent content width (article column center from its left edge);
+     min(50vw, 600px) = half of the desired image width (capped at 600px = half of 1200px). */
+  width: min(100vw, 1200px);
+  margin-left: calc(50% - min(50vw, 600px));
+  margin-bottom: 2rem;
 }
 
 .post-featured-image img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Add subtle radius when image doesn't span full viewport (viewport > 1200px) */
+@media (min-width: 1200px) {
+  .post-featured-image {
+    border-radius: 4px;
+    overflow: hidden;
+  }
 }
 
 /* Article header block (overline, title, summary, byline) */
@@ -537,8 +561,8 @@ p:last-child { margin-bottom: 0; }
 
 /* Two-line drop cap on first paragraph */
 .post-body > p:first-child::first-letter {
-  font-family: var(--font-sans);
-  font-size: 4.5em;
+  font-family: var(--font-sans); /* Inter sans-serif per spec */
+  font-size: 3.5em;              /* spec: ~3.5em */
   font-weight: 700;
   color: var(--color-headline);
   float: left;
@@ -796,15 +820,21 @@ body.video-page {
   /* Hero tile taller on wider screens */
   .tile--hero .tile-link { min-height: 360px; }
 
+  /* Hero overlay: tablet — 2-column tiles get a 1-column (50%) wide box */
+  .tile.span-2.tile--hero .tile-hero-overlay,
+  .tile.span-3.tile--hero .tile-hero-overlay {
+    bottom: 1rem;
+    left: 1rem;
+    right: auto;
+    width: 50%;
+  }
+
+  /* Video tile taller at tablet */
+  .tile--video .tile-link { min-height: 360px; }
+
   /* Article page */
   .post-article {
     padding: 2.5rem 2.5rem 5rem;
-  }
-
-  .post-featured-image {
-    margin: 0 0 2rem; /* restore to content column width */
-    border-radius: 3px;
-    overflow: hidden;
   }
 
   .post-title { font-size: 2.25rem; }
@@ -831,6 +861,14 @@ body.video-page {
 
   /* Hero tile even taller */
   .tile--hero .tile-link { min-height: 420px; }
+
+  /* Hero overlay: desktop — 3-column tiles get a 1-column (33.33%) wide box */
+  .tile.span-3.tile--hero .tile-hero-overlay {
+    width: 33.33%;
+  }
+
+  /* Video tile taller at desktop */
+  .tile--video .tile-link { min-height: 420px; }
 
   /* Larger headline sizes for multi-column tiles */
   .tile.span-2 .tile-title { font-size: 1.625rem; }
