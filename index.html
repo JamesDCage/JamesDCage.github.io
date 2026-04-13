@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>James Cage</title>
+  <meta name="description" content="Personal blog by James Cage — reviews, essays, and things worth sharing.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body data-page="home">
+
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/" class="site-logo">James Cage</a>
+
+      <nav class="site-nav" aria-label="Site navigation">
+        <!-- Desktop nav: populated by nav.js from NAV_LINKS config -->
+        <ul id="nav-links" class="site-nav__list" role="list"></ul>
+
+        <!-- Hamburger button (mobile / tablet) -->
+        <button
+          id="nav-hamburger"
+          class="site-nav__hamburger"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-mobile-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Mobile dropdown menu -->
+    <div id="nav-mobile-menu" class="site-nav__mobile-menu" role="dialog" aria-label="Navigation menu">
+      <ul id="nav-links-mobile" class="site-nav__mobile-list" role="list"></ul>
+    </div>
+  </header>
+
+  <main class="home-main" id="main-content">
+    <div id="tile-grid" class="tile-grid" aria-label="Articles" role="list">
+      <!-- Tiles injected by home.js -->
+      <div class="scroll-sentinel" id="scroll-sentinel" aria-hidden="true"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; 2026 James Cage</p>
+  </footer>
+
+  <script src="/assets/js/nav.js"></script>
+  <script src="/assets/js/home.js"></script>
+</body>
+</html>

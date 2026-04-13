@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video — James Cage</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body class="video-page">
+
+  <button class="video-close" id="video-close" aria-label="Close video and return to previous page">&#x2715;</button>
+
+  <div class="video-wrapper">
+    <iframe
+      id="video-frame"
+      src=""
+      title="Video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <script>
+    (function () {
+      var params  = new URLSearchParams(window.location.search);
+      var videoId = params.get('v');
+      var frame   = document.getElementById('video-frame');
+
+      if (videoId) {
+        // rel=0  — suppress related videos at end
+        // enablejsapi=0 — no JS API needed
+        frame.src = 'https://www.youtube.com/embed/' +
+          encodeURIComponent(videoId) +
+          '?rel=0&autoplay=1';
+      }
+
+      document.getElementById('video-close').addEventListener('click', function () {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = '/';
+        }
+      });
+    }());
+  </script>
+</body>
+</html>
