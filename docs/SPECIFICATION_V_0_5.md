@@ -28,11 +28,11 @@ The implementor shall define the URL patterns for all pages and document them in
 
 | Page | URL Pattern | Notes |
 |------|-------------|-------|
-| Home | `/` | Default landing page with article tiles. Navigation targets (Reviews, Videos) filter this page — they are not separate pages. |
+| Home | `/` | Default landing page with article tiles. Navigation targets (Reviews, Videos) filter this page — they are not separate pages. Filter state carried in `?filter=<tag>` query param. |
 | Article | `/posts/<slug>.html` | Individual article reading page |
 | About | `/about.html` | Personal bio (future release — see 1.5) |
-| Video overlay | *TBD by implementor* | Full-screen video player with close button |
-| 404 | Any invalid URL | Error page |
+| Video overlay | `/video.html?v=<youtube-video-id>` | Full-screen YouTube player; close button returns to previous page |
+| 404 | Any invalid URL | Error page (`404.html` at repo root; GitHub Pages serves this automatically) |
 
 The implementor may modify this table as needed during implementation.
 
@@ -398,9 +398,9 @@ The site is a static site hosted on GitHub Pages. There is no server-side code. 
 | Component | Choice | Notes |
 |-----------|--------|-------|
 | Hosting | GitHub Pages | Served from the `JamesDCage.github.io` repository |
-| CSS framework (if any) | *Implementor to document* | |
-| JavaScript libraries (if any) | *Implementor to document* | |
-| Font source | Google Fonts (Lora, Inter) | See 2.3 |
+| CSS framework (if any) | None — vanilla CSS | Mobile-first, custom properties, CSS Grid |
+| JavaScript libraries (if any) | None — vanilla JS | ES5-compatible IIFEs; no build step required |
+| Font source | Google Fonts (Lora, Inter) | Loaded with `font-display: swap`; see 2.3 |
 
 The implementor may add rows to this table as needed.
 
@@ -412,22 +412,24 @@ PRIME DIRECTIVE: The `JamesDCage.github.io/img` directory and its existing conte
 
 ```
 JamesDCage.github.io/
-├── index.html           # Homepage 
+├── index.html           # Homepage (shell; tiles rendered by home.js)
 ├── manifest.json        # Global site data for client-side JS-driven filtering
+├── video.html           # Full-screen YouTube video player page
+├── 404.html             # Error page
 ├── img/                 # [SYSTEM RESERVED] - DO NOT MODIFY!!
 ├── assets/              # Global site-wide design assets
 │   ├── css/
-│   │   └── main.css     # Typography and layout (GatesNotes clone)
+│   │   └── main.css     # All styles: typography, layout, components (mobile-first)
 │   └── js/
-│       └── router.js    # Client-side JS to fetch manifest and render views
+│       ├── nav.js       # Navigation: renders nav links from config, hamburger toggle
+│       └── home.js      # Home page: fetches manifest, renders tile grid, filtering, infinite scroll
 └── posts/               # All blog content
-    ├── images/          # Images specific to blog posts (e.g., drone shots)
-    │   ├── 2026-04-10-solar-panel.jpg
-    │   └── 2026-04-05-book-cover.png
-    ├── 2026-04-10-future-of-energy.html
-    ├── 2026-04-05-gatsby-review.html
-    └── 2026-03-20-meet-james.html
+    ├── images/          # Images specific to blog posts
+    │   └── <slug>-<name>.jpg|png
+    └── <slug>.html      # One complete HTML file per blog post
 ```
+
+**Added files vs. proposal:** `video.html` and `404.html` were added at the root. `router.js` was renamed and split into `nav.js` (navigation only) and `home.js` (home page only), following the single-purpose module principle in 3.5.
 
 ### 3.3 manifest.json Structure, Contents, and Role
 
@@ -507,9 +509,60 @@ The implementor may add fields to this structure but must update this document i
 
 ### 3.4 Blog Post Structure and Tags
 
-Blog posts will have HTML tags, but no style information. All styles will be defined in one or more CSS files. 
+Blog posts will have HTML tags, but no style information. All styles will be defined in one or more CSS files.
 
-Implementor shall define the HTML tags needed in each blog post file and document them here. 
+Each blog post is a **complete, standalone HTML page** (`/posts/<slug>.html`) that links to the shared CSS and nav JS. The external blog management program generates these files from Markdown source; the structure below is the contract between that program and the site's CSS.
+
+**Page skeleton:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- charset, viewport, title, meta description -->
+  <!-- Google Fonts preconnect + stylesheet link -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body data-page="article">
+  <!-- shared <header> with site-header / site-nav markup (identical across all pages) -->
+  <main class="article-main">
+    <article class="post-article">
+      <!-- featured image, post header, divider, post body -->
+    </article>
+  </main>
+  <!-- shared <footer> -->
+  <script src="/assets/js/nav.js"></script>
+</body>
+</html>
+```
+
+**Article content tags and their CSS classes:**
+
+| Tag | Class / Role | Notes |
+|-----|-------------|-------|
+| `<div class="post-featured-image">` | Featured image wrapper | Full content-column width; contains one `<img>` |
+| `<img>` inside featured image | — | Must include `width`, `height`, and `alt` attributes |
+| `<header class="post-header">` | Article metadata block | Contains overline, title, summary, byline |
+| `<p class="post-overline">` | Overline / eyebrow headline | Inter sans-serif, 13px, semi-bold, uppercase |
+| `<h1 class="post-title">` | Article title (one per page) | Lora serif, 36px, bold |
+| `<p class="post-summary">` | Summary / excerpt | Inter sans-serif, 16px |
+| `<p class="post-byline">` | Author and publication date | Inter sans-serif, 14px, muted color |
+| `<p class="post-originally">` | Optional "originally published" note | Inter sans-serif, 14px, italic, muted (omit element if unused) |
+| `<hr class="post-divider">` | Divider between header and body | Thin horizontal rule |
+| `<div class="post-body">` | Article body content wrapper | All body prose lives here; drop cap applied to first `<p>` via CSS |
+| `<p>` | Body paragraph | Lora serif, 19px; first `<p>` receives drop cap via `::first-letter` |
+| `<h2>` | Section heading | Lora serif, 26px, bold |
+| `<h3>` | Sub-section heading | Lora serif, 21px, semi-bold |
+| `<ul>` / `<ol>` + `<li>` | Bulleted / numbered list | Standard indentation; 0.5em between items |
+| `<blockquote>` | Pull quote | Left border accent in link color; indented |
+| `<figure>` | Inline image wrapper | Contains `<img>` and optional `<figcaption>` |
+| `<img>` inside figure | — | Must include `width`, `height`, and `alt` attributes |
+| `<figcaption>` | Image caption | Inter sans-serif, 14px, italic, muted |
+| `<hr class="post-end-rule">` | End-of-article divider | Separates article from page footer |
+| `<a>` | Inline link | Link color (#1A73E8) with underline |
+| `<code>` | Inline code | Monospace, light gray background |
+| `<pre><code>` | Code block | Monospace, light gray background, horizontal scroll |
+| `<hr>` (inside post-body) | Section break | Thin, centered, muted |
 
 
 
@@ -569,3 +622,4 @@ Features handled by the separate local management application, not by this websi
 | 0.3 | 2026-04-12 | Resolved open design decisions. Set fonts (Lora serif + Inter sans-serif), color palette, sticky header, tablet hamburger, no dark mode, no prev/next links. Cleaned up Part 2 throughout. |
 | 0.4 | 2026-04-12 | Populated 1.2, 1.5, 1.7, 1.8. Expanded manifest.json with full field definitions. Eliminated Part 1/Part 2 redundancies. Updated 2.1 (all posts have images). Fixed section numbering and typos. |
 | 0.5 | 2026-04-12 | Fixed site map (Reviews is filtered home page, not separate page). Updated 2.5 nav links to match 1.7. Fixed manifest example tags to match 1.8. Removed value ranges in 2.7 in favor of cross-references to 2.3. |
+| 0.6 | 2026-04-13 | Implementor update: filled in 3.1 (technology stack), updated 3.2 (directory structure — added video.html, 404.html, split router.js into nav.js + home.js), updated 1.2 (resolved video overlay URL and 404 URL patterns), filled in 3.4 (blog post HTML tag reference). No spec decisions changed. |
