@@ -43,16 +43,21 @@
     </div>
   </header>
 
-  <main class="home-main" id="main-content">
-    <div id="tile-grid" class="tile-grid" aria-label="Articles" role="list">
-      <!-- Tiles injected by home.js -->
-      <div class="scroll-sentinel" id="scroll-sentinel" aria-hidden="true"></div>
-    </div>
-  </main>
+  <div class="content-area">
+    <main class="home-main" id="main-content">
+      <!-- Featured tile (very first tile only) — fills full white content area width -->
+      <div id="featured-tile-container" aria-label="Featured article"></div>
 
-  <footer class="site-footer" role="contentinfo">
-    <p>&copy; 2026 James Cage</p>
-  </footer>
+      <div id="tile-grid" class="tile-grid" aria-label="Articles" role="list">
+        <!-- Tiles injected by home.js -->
+        <div class="scroll-sentinel" id="scroll-sentinel" aria-hidden="true"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p>&copy; 2026 James Cage</p>
+    </footer>
+  </div>
 
   <script src="/assets/js/nav.js"></script>
   <script src="/assets/js/home.js"></script>

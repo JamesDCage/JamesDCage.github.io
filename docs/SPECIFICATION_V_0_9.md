@@ -454,6 +454,7 @@ JamesDCage.github.io/
 ├── manifest.json        # Global site data for client-side JS-driven filtering
 ├── video.html           # Full-screen YouTube video player page
 ├── 404.html             # Error page
+├── CLAUDE.md            # Developer guide for LLM/human contributors
 ├── img/                 # [SYSTEM RESERVED] - DO NOT MODIFY!!
 ├── assets/              # Global site-wide design assets
 │   ├── css/
@@ -467,7 +468,18 @@ JamesDCage.github.io/
     └── <slug>.html      # One complete HTML file per blog post
 ```
 
-**Added files vs. proposal:** `video.html` and `404.html` were added at the root. `router.js` was renamed and split into `nav.js` (navigation only) and `home.js` (home page only), following the single-purpose module principle in 3.5.
+**Added files vs. proposal:** `video.html` and `404.html` were added at the root. `router.js` was renamed and split into `nav.js` (navigation only) and `home.js` (home page only), following the single-purpose module principle in 3.5. `CLAUDE.md` added at root for developer onboarding.
+
+**CSS custom property key values (defined in `main.css` `:root`):**
+
+| Property | Value | Role |
+|----------|-------|------|
+| `--max-content` | 1800px | White content area max-width |
+| `--max-tile-grid` | 1500px | Home page tile grid max-width |
+| `--max-article` | 700px | Article text column max-width |
+| `--tile-height` | 420px | Fixed tile height (never changes with viewport) |
+| `--header-height` | 60px | Height of the floating header bar |
+| `--header-offset` | 96px | Body padding-top (18px gap + 60px header + 18px gap) |
 
 ### 3.3 manifest.json Structure, Contents, and Role
 
@@ -555,16 +567,20 @@ Each blog post is a **complete, standalone HTML page** (`/posts/<slug>.html`) th
 </head>
 <body data-page="article">
   <!-- shared <header> with site-header / site-nav markup (identical across all pages) -->
-  <main class="article-main">
-    <article class="post-article">
-      <!-- featured image, post header, divider, post body -->
-    </article>
-  </main>
-  <!-- shared <footer> -->
+  <div class="content-area">
+    <main class="article-main">
+      <article class="post-article">
+        <!-- featured image, post header, divider, post body -->
+      </article>
+    </main>
+    <!-- shared <footer> -->
+  </div><!-- /.content-area -->
   <script src="/assets/js/nav.js"></script>
 </body>
 </html>
 ```
+
+**`.content-area` wrapper:** Required on all pages (except `video.html`, which has a full-screen black background). Provides the centered white (#FFFFFF) content rectangle that sits on the gray (#FAFAFA) page background. Max-width: 1800px, horizontally centered. The `<header>` (fixed/floating) is placed *outside* the `.content-area` so it overlays everything at `z-index: 100`.
 
 **Article content tags and their CSS classes:**
 
