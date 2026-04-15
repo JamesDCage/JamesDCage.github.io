@@ -56,16 +56,16 @@
 
 ## ✅ Recently Completed (Awaiting Verification)
 
-- [ ] THREE-TIER VISUAL CONTAINER — Added `.content-area` wrapper div (background: #FFFFFF, max-width: 1800px, centered) to index.html, 404.html, and all post HTML files. Body retains background: #FAFAFA. The white rectangle is visible against the gray page background on wide screens.
+- [x] THREE-TIER VISUAL CONTAINER — Added `.content-area` wrapper div (background: #FFFFFF, max-width: 1800px, centered) to index.html, 404.html, and all post HTML files. Body retains background: #FAFAFA. The white rectangle is visible against the gray page background on wide screens.
 
-- [ ] TILE GRID WIDTH — Updated `--max-content` from 1100px to 1800px (white content area) and added `--max-tile-grid: 1500px`. The `.tile-grid` now uses `--max-tile-grid`, making it approximately 1500px wide, centered within the white content area.
+- [x] TILE GRID WIDTH — Updated `--max-content` from 1100px to 1800px (white content area) and added `--max-tile-grid: 1500px`. The `.tile-grid` now uses `--max-tile-grid`, making it approximately 1500px wide, centered within the white content area.
 
-- [ ] FEATURED TILE — The first tile (idx 0) is now rendered into `#featured-tile-container` (above the tile-grid) with class `tile--featured`. It has no shadow, border, or border-radius, fills 100% of the white content area width. On desktop (≥1024px): hero overlay layout, height = `calc(96px + 2.5rem + 420px)` ≈ 556px, body padding-top: 0 so it extends to y=0 behind the header. On tablet (≥768px): same height formula with 2rem grid padding. On mobile: text-on-top layout, auto height, below the header (body padding-top: 96px). Subsequent cycle Row 1 tiles (idx 7, 14…) remain normal span-3 tiles in the tile-grid.
+- [x] FEATURED TILE — The first tile (idx 0) is now rendered into `#featured-tile-container` (above the tile-grid) with class `tile--featured`. It has no shadow, border, or border-radius, fills 100% of the white content area width. On desktop (≥1024px): hero overlay layout, height = `calc(96px + 2.5rem + 420px)` ≈ 556px, body padding-top: 0 so it extends to y=0 behind the header. On tablet (≥768px): same height formula with 2rem grid padding. On mobile: text-on-top layout, auto height, below the header (body padding-top: 96px). Subsequent cycle Row 1 tiles (idx 7, 14…) remain normal span-3 tiles in the tile-grid.
 
-- [ ] ARTICLE HERO IMAGE FULL WHITE CONTENT AREA WIDTH — `.post-featured-image` now uses `width: 100vw; max-width: var(--max-content); position: relative; left: 50%; transform: translateX(-50%)` to fill the full white content area (up to 1800px). `body[data-page="article"]` has `padding-top: 0` on desktop (≥1024px) so the image extends behind the floating header. `.post-article` top padding removed.
+- [x] ARTICLE HERO IMAGE FULL WHITE CONTENT AREA WIDTH — `.post-featured-image` now uses `width: 100vw; max-width: var(--max-content); position: relative; left: 50%; transform: translateX(-50%)` to fill the full white content area (up to 1800px). `body[data-page="article"]` has `padding-top: 0` on desktop (≥1024px) so the image extends behind the floating header. `.post-article` top padding removed.
 
-- [ ] 1-COLUMN TILES: NO HERO OVERLAY — In home.js, hero tiles at span-1 are now rendered with `buildMainTileContent` (text-on-top layout, `tile--main` class). In CSS, `.tile--hero.span-1` overrides to text-on-top, and a `@media (max-width: 767px)` rule forces all `.tile--hero` to text-on-top on mobile.
+- [X] 1-COLUMN TILES: NO HERO OVERLAY — In home.js, hero tiles at span-1 are now rendered with `buildMainTileContent` (text-on-top layout, `tile--main` class). In CSS, `.tile--hero.span-1` overrides to text-on-top, and a `@media (max-width: 767px)` rule forces all `.tile--hero` to text-on-top on mobile.
 
-- [ ] FIXED TILE HEIGHTS ACROSS VIEWPORTS — All `.tile` elements now have `height: var(--tile-height)` (420px) applied unconditionally, with no responsive overrides. The `aspect-ratio` on `.tile--main .tile-image` was replaced with `height: 240px`. All responsive `min-height` rules on hero/video tiles were removed.
+- [X] FIXED TILE HEIGHTS ACROSS VIEWPORTS — All `.tile` elements now have `height: var(--tile-height)` (420px) applied unconditionally, with no responsive overrides. The `aspect-ratio` on `.tile--main .tile-image` was replaced with `height: 240px`. All responsive `min-height` rules on hero/video tiles were removed.
 
 ---
