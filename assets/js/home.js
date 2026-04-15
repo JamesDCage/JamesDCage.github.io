@@ -21,8 +21,9 @@
   let observer   = null; // IntersectionObserver for infinite scroll
 
   // ─── DOM references ───────────────────────────────────────────────────────
-  const grid     = document.getElementById('tile-grid');
-  const sentinel = document.getElementById('scroll-sentinel');
+  const grid              = document.getElementById('tile-grid');
+  const sentinel          = document.getElementById('scroll-sentinel');
+  const featuredContainer = document.getElementById('featured-tile-container');
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
 
@@ -67,6 +68,11 @@
    * Builds a tile <article> element for a single manifest entry.
    * idx is the post's position in the full filtered list (used for layout pattern).
    * Dispatches to the correct tile builder based on post type and image_type.
+   *
+   * Special cases:
+   *   idx === 0 and not a video → featured tile (full white-content-area width,
+   *     hero overlay on desktop/tablet, text-on-top on mobile).
+   *   span === 1 and hero image → use text-on-top layout (no overlay box).
    */
   function buildTile(post, idx) {
     var article = document.createElement('article');
@@ -77,10 +83,16 @@
     if (post.type === 'video') {
       article.classList.add('tile--video');
       article.appendChild(buildVideoTileContent(post));
-    } else if (post.image_type === 'hero') {
+    } else if (idx === 0) {
+      // Very first tile on the page: featured treatment (full-width, taller)
+      article.classList.add('tile--featured');
+      article.appendChild(buildHeroTileContent(post));
+    } else if (post.image_type === 'hero' && span > 1) {
+      // Hero image at 2+ columns: overlay layout
       article.classList.add('tile--hero');
       article.appendChild(buildHeroTileContent(post));
     } else {
+      // Main image tile OR hero forced to 1-column → text-on-top layout
       article.classList.add('tile--main');
       article.appendChild(buildMainTileContent(post));
     }
@@ -197,7 +209,7 @@
 
   // ─── Rendering ────────────────────────────────────────────────────────────
 
-  /** Appends the next batch of tiles to the grid. */
+  /** Appends the next batch of tiles to the grid (or featured container for idx 0). */
   function renderNextBatch() {
     var batch = filtered.slice(loadedCount, loadedCount + TILES_PER_PAGE);
     if (batch.length === 0) {
@@ -208,7 +220,15 @@
     var startIdx = loadedCount; // capture before incrementing
     var frag = document.createDocumentFragment();
     batch.forEach(function (post, batchIdx) {
-      frag.appendChild(buildTile(post, startIdx + batchIdx));
+      var globalIdx = startIdx + batchIdx;
+      var tile = buildTile(post, globalIdx);
+
+      if (globalIdx === 0 && featuredContainer) {
+        // Very first tile goes into the featured container above the grid
+        featuredContainer.appendChild(tile);
+      } else {
+        frag.appendChild(tile);
+      }
     });
     grid.appendChild(frag);
     loadedCount += batch.length;
@@ -223,6 +243,10 @@
     // Remove all tiles but keep the sentinel
     var tiles = grid.querySelectorAll('.tile');
     tiles.forEach(function (t) { t.remove(); });
+    // Clear featured tile container
+    if (featuredContainer) {
+      featuredContainer.innerHTML = '';
+    }
     loadedCount = 0;
 
     renderNextBatch();

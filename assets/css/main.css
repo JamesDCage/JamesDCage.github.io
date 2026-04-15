@@ -24,9 +24,12 @@
   --color-header-border:#E0E0E0;
   --color-footer-text:  #999999;
 
-  --max-content:  1100px;
-  --max-article:  700px;
-  --header-height: 60px;
+  --max-content:    1800px;  /* white content area */
+  --max-tile-grid:  1500px;  /* home page tile grid */
+  --max-article:    700px;   /* article text column */
+  --header-height:  60px;
+  --header-offset:  96px;    /* 18px top gap + 60px height + 18px bottom gap */
+  --tile-height:    420px;   /* fixed tile height — never changes with viewport */
 }
 
 /* -----------------------------------------------------------------------------
@@ -44,17 +47,36 @@ html {
 }
 
 body {
-  background: var(--color-page-bg);
+  background: var(--color-page-bg); /* #FAFAFA — visible at edges on wide screens */
   color: var(--color-body-text);
   font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  /* Offset content below the fixed floating header (18px gap + 60px height + 18px gap) */
+  padding-top: var(--header-offset);
+}
+
+/* Home and article pages: first element (featured tile / hero image) extends
+   behind the floating header, so no body-level top padding on desktop. */
+@media (min-width: 1024px) {
+  body[data-page="home"],
+  body[data-page="article"] {
+    padding-top: 0;
+  }
+}
+
+/* White content area — the centered "page" on the gray desk */
+.content-area {
+  background: var(--color-tile-bg); /* #FFFFFF */
+  max-width: var(--max-content);
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* Offset content below the fixed floating header (18px gap + 60px height + 18px gap) */
-  padding-top: 96px;
+  overflow-x: hidden; /* clips hero image breakout; prevents horizontal scrollbar */
 }
 
 img {
@@ -284,11 +306,16 @@ p:last-child { margin-bottom: 0; }
   flex: 1;
 }
 
+/* Featured tile container — no max-width, fills the full white content area */
+#featured-tile-container {
+  width: 100%;
+}
+
 .tile-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  max-width: var(--max-content);
+  max-width: var(--max-tile-grid);
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -302,6 +329,8 @@ p:last-child { margin-bottom: 0; }
   border-radius: 3px;
   overflow: hidden;
   grid-column: span 1;
+  /* Fixed height — tiles never get shorter as the viewport narrows */
+  height: var(--tile-height);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -324,6 +353,7 @@ p:last-child { margin-bottom: 0; }
   height: 100%;
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
 }
 
 /* Tile typography */
@@ -364,7 +394,7 @@ p:last-child { margin-bottom: 0; }
 
 .tile--main .tile-image {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 240px;   /* fixed image height — does not change with viewport */
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -376,10 +406,11 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* ---- Hero-image tile (image fills tile, text overlay) ---- */
+/* Default: 2-column and 3-column hero tiles use the overlay layout */
 .tile--hero .tile-link {
   position: relative;
   display: block;
-  min-height: 280px;
+  height: 100%;
 }
 
 .tile--hero .tile-hero-image {
@@ -390,23 +421,49 @@ p:last-child { margin-bottom: 0; }
   object-fit: cover;
 }
 
-/* Hero overlay: mobile (1-column tile) = full-width box */
 .tile--hero .tile-hero-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  bottom: 1rem;
+  left: 1rem;
+  right: auto;
+  width: 50%;   /* default: 50% (for 2-col tiles) */
   min-width: 0;
   background: rgba(245, 245, 245, 0.92);
   padding: 1rem 1.25rem;
+}
+
+/* ---- Hero at 1-column: text on top, image below (no overlay) ---- */
+/* Applies on desktop for span-1 hero tiles, and on mobile for all hero tiles */
+.tile--hero.span-1 .tile-link {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tile--hero.span-1 .tile-hero-image {
+  position: static;
+  width: 100%;
+  height: 240px;
+  flex-shrink: 0;
+  order: 2;
+}
+
+.tile--hero.span-1 .tile-hero-overlay {
+  position: static;
+  width: 100%;
+  background: transparent;
+  padding: 1.25rem 1.25rem 1rem;
+  order: 1;
+  flex: 1;
+  overflow: hidden;
 }
 
 /* ---- Video tile (image top 5/6, caption bottom 1/6) ---- */
 .tile--video .tile-link {
   display: flex;
   flex-direction: column;
-  min-height: 280px; /* ensures flex proportions work at all column widths */
+  height: 100%;
 }
 
 .tile--video .tile-video-image-wrap {
@@ -451,6 +508,109 @@ p:last-child { margin-bottom: 0; }
 /* Tile hidden state (filter) */
 .tile[hidden] { display: none !important; }
 
+/* ---- Featured tile (very first tile on the home page) ----
+   Full width of the white content area; no border/shadow/radius.
+   On desktop: hero overlay layout, extends upward behind the floating header.
+   On tablet: hero overlay layout, sits below the header (normal padding-top).
+   On mobile: text-on-top/image-below layout. */
+.tile--featured {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
+  width: 100%;
+  /* Mobile default: auto height (text-on-top layout, content determines height) */
+  height: auto;
+}
+
+.tile--featured:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.tile--featured .tile-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Mobile featured tile: text-on-top, image below */
+.tile--featured .tile-hero-image {
+  position: static;
+  width: 100%;
+  height: 260px;
+  flex-shrink: 0;
+  order: 2;
+  object-fit: cover;
+}
+
+.tile--featured .tile-hero-overlay {
+  position: static;
+  width: 100%;
+  background: transparent;
+  padding: 1.25rem 1.25rem 1rem;
+  order: 1;
+}
+
+.tile--featured .tile-title {
+  font-size: 1.625rem;
+}
+
+/* Tablet: switch to hero overlay layout */
+@media (min-width: 768px) {
+  .tile--featured {
+    height: calc(var(--header-offset) + 2rem + var(--tile-height));
+    /* = 96px + 32px tile-grid top padding + 420px = 548px */
+    position: relative;
+  }
+
+  .tile--featured .tile-link {
+    display: block;
+    position: relative;
+    height: 100%;
+  }
+
+  .tile--featured .tile-hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    order: unset;
+    flex-shrink: unset;
+  }
+
+  .tile--featured .tile-hero-overlay {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 50%;
+    min-width: 240px;
+    background: rgba(245, 245, 245, 0.92);
+    padding: 1.25rem 1.5rem;
+    order: unset;
+  }
+
+  .tile--featured .tile-title { font-size: 1.875rem; }
+}
+
+/* Desktop: taller featured tile — reclaims the space above where content
+   normally starts, so it extends upward behind the floating header. */
+@media (min-width: 1024px) {
+  .tile--featured {
+    /* height = header-offset(96px) + tile-grid-top-padding(2.5rem=40px) + tile-height(420px) */
+    height: calc(var(--header-offset) + 2.5rem + var(--tile-height));
+  }
+
+  .tile--featured .tile-hero-overlay {
+    width: 33.33%;
+  }
+
+  .tile--featured .tile-title { font-size: 2rem; }
+}
+
 /* -----------------------------------------------------------------------------
    10. Article Page Layout
    ----------------------------------------------------------------------------- */
@@ -461,31 +621,30 @@ p:last-child { margin-bottom: 0; }
 .post-article {
   max-width: var(--max-article);
   margin: 0 auto;
-  padding: 2rem 1rem 4rem;
+  /* No top padding — hero image sits flush at the top of the content area,
+     passing behind the floating header on desktop. */
+  padding: 0 1rem 4rem;
 }
 
-/* Featured image at top of article — breaks out of 700px column to ~1200px */
+/* Featured image at top of article.
+   Breaks out of the 700px text column to fill the full white content area
+   (up to 1800px). Uses the standard CSS full-bleed breakout technique:
+   position:relative + left:50% + translateX(-50%) centers the element on
+   the containing block's midpoint, which aligns with the content-area center. */
 .post-featured-image {
-  /* Full-bleed breakout: centers the image on the viewport regardless of column width.
-     Formula: 50% = half of parent content width (article column center from its left edge);
-     min(50vw, 600px) = half of the desired image width (capped at 600px = half of 1200px). */
-  width: min(100vw, 1200px);
-  margin-left: calc(50% - min(50vw, 600px));
+  width: 100vw;
+  max-width: var(--max-content); /* cap at 1800px — stays within white content area */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   margin-bottom: 2rem;
+  margin-top: 0;
 }
 
 .post-featured-image img {
   width: 100%;
   height: auto;
   display: block;
-}
-
-/* Add subtle radius when image doesn't span full viewport (viewport > 1200px) */
-@media (min-width: 1200px) {
-  .post-featured-image {
-    border-radius: 4px;
-    overflow: hidden;
-  }
 }
 
 /* Article header block (overline, title, summary, byline) */
@@ -797,6 +956,34 @@ body.video-page {
   color: var(--color-muted);
 }
 
+/* Mobile: all hero tiles → text-on-top (same as span-1 rule) */
+@media (max-width: 767px) {
+  .tile--hero .tile-link {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .tile--hero .tile-hero-image {
+    position: static;
+    width: 100%;
+    height: 240px;
+    flex-shrink: 0;
+    order: 2;
+  }
+
+  .tile--hero .tile-hero-overlay {
+    position: static;
+    width: 100%;
+    background: transparent;
+    padding: 1.25rem 1.25rem 1rem;
+    order: 1;
+    flex: 1;
+    overflow: hidden;
+  }
+}
+
 /* -----------------------------------------------------------------------------
    15. Responsive — Tablet (768px+)
    ----------------------------------------------------------------------------- */
@@ -817,24 +1004,15 @@ body.video-page {
   .tile.span-2 { grid-column: span 2; }
   .tile.span-3 { grid-column: span 2; } /* capped at 2 on tablet */
 
-  /* Hero tile taller on wider screens */
-  .tile--hero .tile-link { min-height: 360px; }
-
-  /* Hero overlay: tablet — 2-column tiles get a 1-column (50%) wide box */
+  /* Hero overlay: 2-column tiles get a 1/2-width box */
   .tile.span-2.tile--hero .tile-hero-overlay,
   .tile.span-3.tile--hero .tile-hero-overlay {
-    bottom: 1rem;
-    left: 1rem;
-    right: auto;
     width: 50%;
   }
 
-  /* Video tile taller at tablet */
-  .tile--video .tile-link { min-height: 360px; }
-
   /* Article page */
   .post-article {
-    padding: 2.5rem 2.5rem 5rem;
+    padding: 0 2.5rem 5rem;
   }
 
   .post-title { font-size: 2.25rem; }
@@ -859,16 +1037,10 @@ body.video-page {
   .tile.span-2 { grid-column: span 2; }
   .tile.span-3 { grid-column: span 3; }
 
-  /* Hero tile even taller */
-  .tile--hero .tile-link { min-height: 420px; }
-
-  /* Hero overlay: desktop — 3-column tiles get a 1-column (33.33%) wide box */
+  /* Hero overlay: 3-column tiles get a 1/3-width box */
   .tile.span-3.tile--hero .tile-hero-overlay {
     width: 33.33%;
   }
-
-  /* Video tile taller at desktop */
-  .tile--video .tile-link { min-height: 420px; }
 
   /* Larger headline sizes for multi-column tiles */
   .tile.span-2 .tile-title { font-size: 1.625rem; }
@@ -876,7 +1048,7 @@ body.video-page {
 
   /* Article page: constrained and centered */
   .post-article {
-    padding: 3rem 0 6rem;
+    padding: 0 0 6rem;
   }
 }
 
