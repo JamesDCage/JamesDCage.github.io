@@ -11,8 +11,8 @@
   const TILES_PER_PAGE = 9;
 
   // Fixed repeating row pattern: row1=span3, row2=(2,1), row3=(1,2), row4=(1,1,1)
-  // Repeats every 7 articles: [3, 2, 1, 1, 2, 1, 1]
-  const LAYOUT_PATTERN = [3, 2, 1, 1, 2, 1, 1];
+  // Repeats every 8 articles: [3, 2, 1, 1, 2, 1, 1, 1]
+  const LAYOUT_PATTERN = [3, 2, 1, 1, 2, 1, 1, 1];
 
   // ─── State ────────────────────────────────────────────────────────────────
   let allPosts   = [];   // all manifest entries, sorted newest-first
@@ -209,6 +209,27 @@
 
   // ─── Rendering ────────────────────────────────────────────────────────────
 
+  /**
+   * Expands the last grid tile's column span to fill any remaining columns in
+   * an incomplete final row. Prevents orphaned gap cells at the end of the grid.
+   * Only called once all posts have been rendered.
+   */
+  function fillLastRow(lastTile) {
+    // Sum all column spans for tiles in the grid (idx 1 onward; idx 0 is featured)
+    var colsUsed = 0;
+    for (var i = 1; i < filtered.length; i++) {
+      colsUsed += columnSpanForIndex(i);
+    }
+    var remainder = colsUsed % 3;
+    if (remainder === 0) return; // last row is already full
+
+    var currentSpan = columnSpanForIndex(filtered.length - 1);
+    var expandedSpan = currentSpan + (3 - remainder);
+    lastTile.style.gridColumn = 'span ' + expandedSpan;
+    lastTile.classList.remove('span-' + currentSpan);
+    lastTile.classList.add('span-' + expandedSpan);
+  }
+
   /** Appends the next batch of tiles to the grid (or featured container for idx 0). */
   function renderNextBatch() {
     var batch = filtered.slice(loadedCount, loadedCount + TILES_PER_PAGE);
@@ -219,6 +240,7 @@
 
     var startIdx = loadedCount; // capture before incrementing
     var frag = document.createDocumentFragment();
+    var lastGridTile = null;
     batch.forEach(function (post, batchIdx) {
       var globalIdx = startIdx + batchIdx;
       var tile = buildTile(post, globalIdx);
@@ -228,6 +250,7 @@
         featuredContainer.appendChild(tile);
       } else {
         frag.appendChild(tile);
+        lastGridTile = tile;
       }
     });
     grid.appendChild(frag);
@@ -235,6 +258,9 @@
 
     if (loadedCount >= filtered.length) {
       disconnectObserver();
+      if (lastGridTile) {
+        fillLastRow(lastGridTile);
+      }
     }
   }
 
