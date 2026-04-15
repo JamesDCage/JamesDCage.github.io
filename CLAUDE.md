@@ -9,7 +9,7 @@ Developer guide for LLM and human contributors. Read this before touching any fi
 A personal blog (JamesDCage.github.io) hosted on GitHub Pages. Static HTML/CSS/JS only — no build step, no server-side code, no frameworks. About 20 readers. The reference design is GatesNotes.
 
 Full specification: `docs/SPECIFICATION_V_0_9.md`  
-Open bugs: `docs/BUGS_V0_2.md`  
+Open bugs: `docs/BUGS_V0_3.md`  
 Spec images (part of the spec, not decoration): `docs/images/`
 
 ---
@@ -78,7 +78,7 @@ Every page (except video.html) uses this layered structure:
 2. **`.content-area`** — background `#FFFFFF`, `max-width: 1800px`, centered. This is the white "page."
 3. Content inside `.content-area` (header/tiles/article/footer).
 
-The floating `<header>` is placed **outside** `.content-area` (but inside `<body>`) so it overlays everything at `z-index: 100`.
+The floating `<header>` is placed **outside** `.content-area` (but inside `<body>`) so it overlays everything at `z-index: 100`. Its `max-width` is `var(--max-tile-grid)` (1500px) — matching the tile grid width, not the full content area.
 
 ### Body padding-top rules
 - Default: `96px` (clears the floating header)
@@ -91,7 +91,7 @@ The floating `<header>` is placed **outside** `.content-area` (but inside `<body
 
 `index.html` → `home.js` fetches `manifest.json` → renders tiles.
 
-### Tile grid layout pattern (repeats every 7 posts)
+### Tile grid layout pattern (repeats every 8 posts)
 
 | Cycle position | Span | Notes |
 |---------------|------|-------|
@@ -103,6 +103,7 @@ The floating `<header>` is placed **outside** `.content-area` (but inside `<body
 | 4 | 2 | — |
 | 5 | 1 | — |
 | 6 | 1 | — |
+| 7 | 1 | — |
 
 The very first tile (global idx 0) is rendered into `#featured-tile-container` (above the tile-grid). All other tiles go into `#tile-grid`.
 
@@ -197,7 +198,7 @@ Tile height (`--tile-height: 420px`) is **fixed across all breakpoints**.
 
 ## Working with Bugs and Spec
 
-- Bug tracker: `docs/BUGS_V0_2.md` — follow the instructions at the top of that file
+- Bug tracker: `docs/BUGS_V0_3.md` — follow the instructions at the top of that file
 - When you fix a bug: check the box, add a note to "Recently Completed"
 - When you change implementation details: update `docs/SPECIFICATION_V_0_9.md` sections 3.1–3.4
 

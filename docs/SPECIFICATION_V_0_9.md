@@ -46,7 +46,7 @@ When displayed on a large monitor, the home page will consist of a 3-column grid
 - **Row 3:** one 1-column tile, one 2-column tile
 - **Row 4:** three 1-column tiles
 
-This pattern consumes 7 articles per cycle, then repeats. Articles are always in reverse chronological order — the pattern controls the layout, not the manifest. The manifest does not contain column span information; it is determined entirely by the layout algorithm.
+This pattern consumes 8 articles per cycle, then repeats. Articles are always in reverse chronological order — the pattern controls the layout, not the manifest. The manifest does not contain column span information; it is determined entirely by the layout algorithm.
 
 Every post (article and video) must render correctly at any width (1, 2, or 3 columns). All tiles in a row are the same height.
 
@@ -264,7 +264,7 @@ GatesNotes uses a clean top bar with the site name/logo on the left and a small 
 
 - Site name or logo: left-aligned. Text-based is fine (no graphic logo needed). Set in the heading font at a moderate size — large enough to identify the site, not so large it dominates the page.
 - Navigation links: right-aligned. Home, Reviews, Videos. See 1.7 for full link definitions. The link list should be configurable so new filtered links can be added without a code change.
-- **Floating header:** The header floats above the content, fixed in place while scrolling. It is positioned 18px below the top of the viewport (`top: 18px`), constrained to `max-width: var(--max-content)` so it matches the content width below, and centered with `margin: 0 auto`. Rounded corners (`border-radius: 8px`) give it a contained, island-like appearance. No box-shadow — use only the thin bottom border. Content scrolls behind and around the header, visible in the gap above and to the left and right. The body or main content must have `padding-top` to account for the header being out of the document flow.
+- **Floating header:** The header floats above the content, fixed in place while scrolling. It is positioned 18px below the top of the viewport (`top: 18px`), constrained to `max-width: var(--max-tile-grid)` so it matches the tile grid width, and centered with `margin: 0 auto`. Rounded corners (`border-radius: 8px`) give it a contained, island-like appearance. No box-shadow — use only the thin bottom border. Content scrolls behind and around the header, visible in the gap above and to the left and right. The body or main content must have `padding-top` to account for the header being out of the document flow.
 - On tablet and mobile: navigation links collapse into a hamburger menu icon (three horizontal lines). Tapping it reveals the links as a dropdown, slide-in panel, or full-screen overlay.
 
 **Footer:**
