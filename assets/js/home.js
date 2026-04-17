@@ -225,7 +225,8 @@
 
     var currentSpan = columnSpanForIndex(filtered.length - 1);
     var expandedSpan = currentSpan + (3 - remainder);
-    lastTile.style.gridColumn = 'span ' + expandedSpan;
+    // Update the class only — don't use inline style, which would override the
+    // CSS media queries that cap/collapse spans on tablet and mobile.
     lastTile.classList.remove('span-' + currentSpan);
     lastTile.classList.add('span-' + expandedSpan);
   }

@@ -56,4 +56,6 @@
 
 - [ ] **TILE RENDERING ORDER DISRUPTED BY SENTINEL** — Resolved as a direct consequence of fixing the scroll-sentinel placement (Bug 1 above). No separate code change needed.
 
+- [ ] **FILL-LAST-ROW INLINE STYLE BREAKS MOBILE LAYOUT** — `fillLastRow()` set `lastTile.style.gridColumn = 'span N'` as an inline style, which overrides CSS media queries. On mobile this forced implicit grid columns into the 1-column grid, breaking the single-column layout. Fixed by removing the inline style and relying solely on the `span-N` class change — the existing responsive CSS rules already cap/collapse spans correctly at each breakpoint. (`assets/js/home.js`)
+
 ---
