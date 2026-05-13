@@ -1,20 +1,5 @@
 [
   {
-    "date": "2026-05-12",
-    "image_url": "/posts/images/i-am-not-a-robot-2026-05-12.png",
-    "post_id": "5c5adae7-d420-4578-b6c6-371037698368",
-    "slug": "2026-05-12-new-post",
-    "tags": [
-      "Review",
-      "Books"
-    ],
-    "type": "video",
-    "video_caption": "I am looking forward to this book!",
-    "video_url": "https://www.youtube.com/embed/e8IPrAKtDe0?si=UlzZjZsw4-kvxVrd",
-    "width": "X",
-    "source_hash": "ebbcee0bfa9b13c0ece6c10d19dd4a9244c833e81c778cc8b8beaebf0b01136f"
-  },
-  {
     "column_span": 1,
     "date": "2026-05-11",
     "image_type": "hero",
