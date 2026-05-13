@@ -1,0 +1,88 @@
+[
+  {
+    "title": "This is me trying to figure out what's what",
+    "overline": "It's An Eyebrow Headline",
+    "summary": "Still Plugging Away on My Blog",
+    "slug": "2026-05-05-all-fields-or-not",
+    "date": "2026-05-05",
+    "tags": [
+      "blog"
+    ],
+    "url": "/posts/2026-05-05-all-fields-or-not.html",
+    "type": "article",
+    "image_url": "/posts/images/2026-04-21 default hero.jpg",
+    "image_type": "hero"
+  },
+  {
+    "title": "We're all Product Managers Baby",
+    "overline": "This is just a test y'all",
+    "summary": "I created a blog post manager!",
+    "slug": "2026-05-02-new-post",
+    "date": "2026-05-02",
+    "tags": [
+      "review"
+    ],
+    "url": "/posts/2026-05-02-new-post.html",
+    "type": "article",
+    "image_url": "/posts/images/2008-04-29-greenville-night.jpg",
+    "image_type": "hero"
+  },
+  {
+    "slug": "2025-04-13-at-the-quarry",
+    "date": "2025-04-13",
+    "tags": [
+      "Videos"
+    ],
+    "url": "",
+    "type": "video",
+    "image_url": "/posts/images/2025-04-13-at-the-quarry.jpg",
+    "video_url": "https://www.youtube.com/embed/AlmsB8fdXVk",
+    "video_caption": "One golden day last summer, me and a buddy flew an FPV drone over a gigantic quarry."
+  },
+  {
+    "title": "Are You Angry And Afraid?",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "Anyone who tells you the solution is simple is probably simple, too.",
+    "slug": "2011-07-30-are-you-angry-and-afraid",
+    "date": "2011-07-30",
+    "tags": [
+      "Life"
+    ],
+    "url": "/posts/2011-07-30-are-you-angry-and-afraid.html",
+    "type": "article",
+    "image_url": "/posts/images/tax-the-rich.webp",
+    "image_type": "main",
+    "originally": "Originally published on desktopmovies.blogspot.com, July 2011"
+  },
+  {
+    "title": "$17 Music Collection",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "I built my love of music on piles and piles of used CDs. This was a great haul.",
+    "slug": "2010-11-21-17-music-collection",
+    "date": "2010-11-21",
+    "tags": [
+      "Reviews",
+      "Music"
+    ],
+    "url": "/posts/2010-11-21-17-music-collection.html",
+    "type": "article",
+    "image_url": "/posts/images/2010-11-21-cd-collection.jpg",
+    "image_type": "main",
+    "originally": "Originally published on desktopmovies.blogspot.com, November 2010"
+  },
+  {
+    "title": "Greenville",
+    "overline": "FROM THE ARCHIVE",
+    "summary": "18 years ago, I found a city that opened my eyes to good urban design and planning.",
+    "slug": "2008-04-29-greenville",
+    "date": "2008-04-29",
+    "tags": [
+      "Life"
+    ],
+    "url": "/posts/2008-04-29-greenville.html",
+    "type": "article",
+    "image_url": "/posts/images/2008-04-29-greenville-night.jpg",
+    "image_type": "hero",
+    "originally": "Originally published on desktopmovies.blogspot.com, April 2008"
+  }
+]
