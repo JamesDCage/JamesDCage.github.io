@@ -6,13 +6,14 @@
     "slug": "2026-05-12-new-post",
     "tags": [
       "Review",
-      "Books"
+      "Books",
+      "Cards"
     ],
     "type": "video",
     "video_caption": "I am looking forward to this book!",
     "video_url": "https://www.youtube.com/embed/e8IPrAKtDe0?si=UlzZjZsw4-kvxVrd",
     "width": "X",
-    "source_hash": "ebbcee0bfa9b13c0ece6c10d19dd4a9244c833e81c778cc8b8beaebf0b01136f"
+    "source_hash": "181e7dd2ad205ff036f67449a6cf2071d02dca3c4fe5dfdf8730a525c171c17f"
   },
   {
     "column_span": 1,
@@ -26,14 +27,13 @@
     "summary": "From my Idea Catcher in 2013. I'm happy to say that the 2025 Superman movie gets it.",
     "tags": [
       "Reviews",
-      "Archive",
-      "burp"
+      "Archive"
     ],
     "title": "Batman and Superman",
     "type": "article",
     "width": "1",
     "url": "/posts/2026-04-13-batman-and-superman.html",
-    "source_hash": "90ab03e04a489436838eb4b81e50e0cf1ffca58b8f3b5589dc6d33ca52f78594"
+    "source_hash": "59fdceade21cdb6a201f2ca575d4f944002738e383fc361469a8fceba7e0a8f3"
   },
   {
     "date": "2010-11-21",
@@ -63,10 +63,10 @@
       "Greg"
     ],
     "type": "video",
-    "video_caption": "One golden day last summer, me and a buddy flew an FPV drone over a gigantic quarry.",
+    "video_caption": "One golden day last summer, a buddy and I flew an FPV drone over a gigantic quarry.",
     "video_url": "https://www.youtube.com/embed/AlmsB8fdXVk",
     "width": "X",
-    "source_hash": "bd9bd6fac966ac7e930578532f5a86896b6d25c4530ba2d6ea2782f9a6331dd0"
+    "source_hash": "b637b9c150038223f48b0e97f623e9dfa263bef0933ee054df528ffb571dc204"
   },
   {
     "date": "2008-04-29",
