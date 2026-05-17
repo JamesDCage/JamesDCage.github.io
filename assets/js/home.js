@@ -15,7 +15,7 @@
   const LAYOUT_PATTERN = [3, 2, 1, 1, 2, 1, 1, 1];
 
   // ─── State ────────────────────────────────────────────────────────────────
-  let allPosts   = [];   // all manifest entries, sorted newest-first
+  let allPosts   = [];   // all manifest entries, in manifest.json order
   let filtered   = [];   // posts after applying the active filter
   let loadedCount = 0;   // how many tiles are currently rendered
   let observer   = null; // IntersectionObserver for infinite scroll
@@ -209,28 +209,6 @@
 
   // ─── Rendering ────────────────────────────────────────────────────────────
 
-  /**
-   * Expands the last grid tile's column span to fill any remaining columns in
-   * an incomplete final row. Prevents orphaned gap cells at the end of the grid.
-   * Only called once all posts have been rendered.
-   */
-  function fillLastRow(lastTile) {
-    // Sum all column spans for tiles in the grid (idx 1 onward; idx 0 is featured)
-    var colsUsed = 0;
-    for (var i = 1; i < filtered.length; i++) {
-      colsUsed += columnSpanForIndex(i);
-    }
-    var remainder = colsUsed % 3;
-    if (remainder === 0) return; // last row is already full
-
-    var currentSpan = columnSpanForIndex(filtered.length - 1);
-    var expandedSpan = currentSpan + (3 - remainder);
-    // Update the class only — don't use inline style, which would override the
-    // CSS media queries that cap/collapse spans on tablet and mobile.
-    lastTile.classList.remove('span-' + currentSpan);
-    lastTile.classList.add('span-' + expandedSpan);
-  }
-
   /** Appends the next batch of tiles to the grid (or featured container for idx 0). */
   function renderNextBatch() {
     var batch = filtered.slice(loadedCount, loadedCount + TILES_PER_PAGE);
@@ -259,9 +237,6 @@
 
     if (loadedCount >= filtered.length) {
       disconnectObserver();
-      if (lastGridTile) {
-        fillLastRow(lastGridTile);
-      }
     }
   }
 
@@ -307,7 +282,13 @@
   /** Applies the current URL filter and re-renders the grid. */
   function applyCurrentFilter() {
     var tag = activeFilter();
-    filtered = applyFilter(allPosts, tag);
+    if (tag) {
+      // Filtered views show in reverse chronological order (spec §1.8)
+      filtered = sortByDate(applyFilter(allPosts, tag));
+    } else {
+      // Unfiltered home page uses manifest.json order (spec §1.3)
+      filtered = allPosts.slice();
+    }
     renderGrid();
   }
 
@@ -322,7 +303,7 @@
         return res.json();
       })
       .then(function (data) {
-        allPosts = sortByDate(data);
+        allPosts = data;
         applyCurrentFilter();
       })
       .catch(function (err) {
