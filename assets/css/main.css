@@ -24,12 +24,14 @@
   --color-header-border:#E0E0E0;
   --color-footer-text:  #999999;
 
-  --max-content:    1800px;  /* white content area */
-  --max-tile-grid:  1500px;  /* home page tile grid */
-  --max-article:    700px;   /* article text column */
-  --header-height:  60px;
-  --header-offset:  96px;    /* 18px top gap + 60px height + 18px bottom gap */
-  --tile-height:    420px;   /* fixed tile height — never changes with viewport */
+  --max-content:          1800px;  /* white content area */
+  --max-tile-grid:        1500px;  /* home page tile grid */
+  --max-article:          700px;   /* article text column */
+  --header-height:        60px;
+  --header-offset:        96px;    /* 18px top gap + 60px height + 18px bottom gap */
+  --tile-height:          420px;   /* standard tile height for 1-col and 2-col rows */
+  --featured-tile-height: calc(var(--max-content) * 9 / 16);   /* 16:9 of 1800px ≈ 1012px */
+  --tile-height-3col:     calc(var(--max-tile-grid) * 9 / 16); /* 16:9 of 1500px ≈ 844px */
 }
 
 /* -----------------------------------------------------------------------------
@@ -519,8 +521,8 @@ p:last-child { margin-bottom: 0; }
   border-radius: 0;
   overflow: hidden;
   width: 100%;
-  /* Mobile default: auto height (text-on-top layout, content determines height) */
-  height: auto;
+  /* Mobile: same height as all other 1-col tiles (spec §1.3 small-screen rule) */
+  height: var(--tile-height);
 }
 
 .tile--featured:hover {
@@ -536,11 +538,11 @@ p:last-child { margin-bottom: 0; }
   color: inherit;
 }
 
-/* Mobile featured tile: text-on-top, image below */
+/* Mobile featured tile: text-on-top, image below (matches other 1-col tiles) */
 .tile--featured .tile-hero-image {
   position: static;
   width: 100%;
-  height: 260px;
+  height: 240px;
   flex-shrink: 0;
   order: 2;
   object-fit: cover;
@@ -558,11 +560,10 @@ p:last-child { margin-bottom: 0; }
   font-size: 1.625rem;
 }
 
-/* Tablet: switch to hero overlay layout */
+/* Tablet: switch to hero overlay layout, 16:9 height maintained */
 @media (min-width: 768px) {
   .tile--featured {
-    height: calc(var(--header-offset) + 2rem + var(--tile-height));
-    /* = 96px + 32px tile-grid top padding + 420px = 548px */
+    height: var(--featured-tile-height); /* 16:9 of 1800px content area ≈ 1012px */
     position: relative;
   }
 
@@ -596,12 +597,10 @@ p:last-child { margin-bottom: 0; }
   .tile--featured .tile-title { font-size: 1.875rem; }
 }
 
-/* Desktop: taller featured tile — reclaims the space above where content
-   normally starts, so it extends upward behind the floating header. */
+/* Desktop: featured tile height is already set by tablet rule; overlay width narrows to 1/3 */
 @media (min-width: 1024px) {
   .tile--featured {
-    /* height = header-offset(96px) + tile-grid-top-padding(2.5rem=40px) + tile-height(420px) */
-    height: calc(var(--header-offset) + 2.5rem + var(--tile-height));
+    height: var(--featured-tile-height); /* same as tablet — 16:9 of 1800px ≈ 1012px */
   }
 
   .tile--featured .tile-hero-overlay {
@@ -1036,6 +1035,9 @@ body.video-page {
 
   .tile.span-2 { grid-column: span 2; }
   .tile.span-3 { grid-column: span 3; }
+
+  /* 3-column grid tiles: 16:9 height at full tile-grid width (spec §1.3) */
+  .tile-grid .tile.span-3 { height: var(--tile-height-3col); }
 
   /* Hero overlay: 3-column tiles get a 1/3-width box */
   .tile.span-3.tile--hero .tile-hero-overlay {

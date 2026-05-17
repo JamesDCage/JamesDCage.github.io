@@ -21,15 +21,15 @@
 
 ## 🔴 High Priority
 
-- [ ] **Manifest-based tile ordering:** Update `home.js` to display tiles in the order they appear in `manifest.json` (per SPECIFICATION_V_0_11.md §1.3), not in reverse chronological order. The layout pattern (3-column featured, 2+1, 1+2, 1+1+1) still applies, but it should consume articles from the manifest in manifest order, not by date.
+- [x] **Manifest-based tile ordering:** Update `home.js` to display tiles in the order they appear in `manifest.json` (per SPECIFICATION_V_0_11.md §1.3), not in reverse chronological order. The layout pattern (3-column featured, 2+1, 1+2, 1+1+1) still applies, but it should consume articles from the manifest in manifest order, not by date.
 
-- [ ] **16:9 aspect ratio for featured tile:** Update CSS to size the featured tile (first tile on page) tall enough to display a 16:9 image fully. Define `--featured-tile-height` CSS custom property to support this (per SPECIFICATION_V_0_11.md §1.3). Featured tile fills full white content area width (~1800px).
+- [x] **16:9 aspect ratio for featured tile:** Update CSS to size the featured tile (first tile on page) tall enough to display a 16:9 image fully. Define `--featured-tile-height` CSS custom property to support this (per SPECIFICATION_V_0_11.md §1.3). Featured tile fills full white content area width (~1800px).
 
-- [ ] **16:9 aspect ratio for 3-column rows:** Update CSS to size all 3-column tile rows (featured tile and any other 3-column tiles in the pattern) tall enough to maintain 16:9 aspect ratio (per SPECIFICATION_V_0_11.md §1.3). Define `--tile-height-3col` CSS custom property.
+- [x] **16:9 aspect ratio for 3-column rows:** Update CSS to size all 3-column tile rows (featured tile and any other 3-column tiles in the pattern) tall enough to maintain 16:9 aspect ratio (per SPECIFICATION_V_0_11.md §1.3). Define `--tile-height-3col` CSS custom property.
 
-- [ ] **Grid layout: allow empty slots in last row:** Update `home.js` tile layout logic to allow the last row to have fewer than 3 columns with empty slots, instead of forcing it to fill. Empty spaces should not display placeholder tiles (per SPECIFICATION_V_0_11.md §1.3).
+- [x] **Grid layout: allow empty slots in last row:** Update `home.js` tile layout logic to allow the last row to have fewer than 3 columns with empty slots, instead of forcing it to fill. Empty spaces should not display placeholder tiles (per SPECIFICATION_V_0_11.md §1.3).
 
-- [ ] **Small-screen tile height rules:** Update responsive CSS for tablet and mobile. Once viewport narrows to single-column display, all rows should be the same height (per SPECIFICATION_V_0_11.md §1.3). Currently tile heights are fixed across all breakpoints; clarify height behavior at each breakpoint.
+- [x] **Small-screen tile height rules:** Update responsive CSS for tablet and mobile. Once viewport narrows to single-column display, all rows should be the same height (per SPECIFICATION_V_0_11.md §1.3). Currently tile heights are fixed across all breakpoints; clarify height behavior at each breakpoint.
 
 ---
 
@@ -54,6 +54,14 @@
 
 ## ✅ Recently Completed (Awaiting Verification)
 
+- [ ] **Manifest-based tile ordering** — `home.js`: removed `sortByDate` from init; `allPosts` now stores manifest order directly. `applyCurrentFilter` applies `sortByDate` only when a filter tag is active (spec §1.8: filtered views still reverse-chronological).
 
+- [ ] **16:9 aspect ratio for featured tile** — `main.css`: added `--featured-tile-height: calc(var(--max-content) * 9 / 16)` (~1012px). Applied at tablet (768px+) and desktop. Mobile retains `--tile-height` (420px) per small-screen rule.
+
+- [ ] **16:9 aspect ratio for 3-column rows** — `main.css`: added `--tile-height-3col: calc(var(--max-tile-grid) * 9 / 16)` (~844px). Applied to `.tile-grid .tile.span-3` at desktop (1024px+). Standard `--tile-height` applies at tablet and mobile.
+
+- [ ] **Grid layout: allow empty slots in last row** — `home.js`: removed `fillLastRow()` function and its call. The grid now naturally leaves empty slots when the last row is incomplete.
+
+- [ ] **Small-screen tile height rules** — `main.css`: `.tile--featured` base (mobile) changed from `height: auto` to `height: var(--tile-height)` (420px), matching all other single-column tiles. Featured tile image height on mobile reduced from 260px to 240px to fit within 420px total.
 
 ---

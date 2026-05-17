@@ -478,7 +478,9 @@ JamesDCage.github.io/
 | `--max-content` | 1800px | White content area max-width |
 | `--max-tile-grid` | 1500px | Home page tile grid max-width |
 | `--max-article` | 700px | Article text column max-width |
-| `--tile-height` | 420px | Fixed tile height (never changes with viewport) |
+| `--tile-height` | 420px | Standard tile height for 1-col and 2-col rows |
+| `--featured-tile-height` | calc(1800px × 9/16) ≈ 1012px | Featured tile height (16:9 of content area width) |
+| `--tile-height-3col` | calc(1500px × 9/16) ≈ 844px | 3-column grid tile height (16:9 of tile grid width) |
 | `--header-height` | 60px | Height of the floating header bar |
 | `--header-offset` | 96px | Body padding-top (18px gap + 60px header + 18px gap) |
 
