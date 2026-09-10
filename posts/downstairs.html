@@ -66,14 +66,18 @@
     .stair-btn {
       position: absolute;
       transform: translate(-50%, -50%);
-      display: block;
-      width: 2.4em;
-      height: 2.4em;
-      color: #228B22;
-      filter: drop-shadow(0 0 3px #fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.2em;
+      height: 2.2em;
+      background: #228B22;
+      color: #fff;
+      border-radius: 0.5em;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     }
-    .stair-btn:hover { color: #2FA82F; }
-    .stair-btn svg { width: 100%; height: 100%; }
+    .stair-btn:hover { background: #2FA82F; }
+    .stair-btn svg { width: 70%; height: 70%; }
     .stair-btn path {
       stroke: currentColor;
       stroke-width: 4.5;
@@ -127,7 +131,7 @@
   <div class="plan-wrap" id="plan">
     <img src="images/Tybee/Tybee 072.jpg" alt="Downstairs floorplan of the Tybee house">
     <a class="stair-btn" href="upstairs.html" title="Go upstairs"
-       style="left: 10%; top: 87.5%;" aria-label="Go upstairs">
+       style="left: 6.8%; top: 93.5%;" aria-label="Go upstairs">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 21 L12 4 M12 4 L5 11 M12 4 L19 11"></path>
       </svg>
@@ -146,15 +150,15 @@
       { n: 60, x:  7.7, y:  6.6, a:  90 },
       { n: 61, x: 15.2, y: 11.8, a:  90 },
       { n: 54, x: 68.1, y: 18.5, a:  45 },
-      { n: 49, x: 62.2, y: 22.5, a: 180 },
-      { n: 50, x: 71.9, y: 22.2, a: 225 },
-      { n: 55, x: 90.9, y: 21.0, a: 270 },
-      { n: 56, x: 91.3, y: 24.7 },
+      { n: 49, x: 62.2, y: 23.8, a: 180 },
+      { n: 50, x: 71.9, y: 24.0, a: 225 },
+      { n: 55, x: 88.3, y: 24.0, a: 270, pre: true },
+      { n: 56, x: 89.6, y: 27.3 },
       { n: 58, x: 54.7, y: 35.8, a: 315 },
       { n: 53, x: 66.0, y: 41.4, a:  45 },
-      { n: 52, x: 67.9, y: 45.9, a: 135 },
-      { n: 57, x: 76.2, y: 45.9, a: 180 },
-      { n: 51, x: 67.0, y: 52.3, a:  90 },
+      { n: 52, x: 68.0, y: 47.2, a: 135 },
+      { n: 57, x: 76.2, y: 47.2, a: 180 },
+      { n: 51, x: 68.3, y: 52.3, a:  90 },
       { n: 59, x: 10.4, y: 59.4, a:   0 },
       { n:  8, x: 38.5, y: 76.5, a: 225 },
       { n: 64, x: 54.4, y: 74.7, a: 135 },
@@ -222,7 +226,13 @@
       el.onclick = markerClick;
       html = '<span class="num">' + m.n + '</span>';
       if (typeof m.a === 'number') {
-        html += ARROW_SVG.replace('DEG', m.a);
+        // m.pre puts the arrow before the number (e.g. an arrow pointing
+        // left at a wall to the number's left).
+        if (m.pre) {
+          html = ARROW_SVG.replace('DEG', m.a) + html;
+        } else {
+          html += ARROW_SVG.replace('DEG', m.a);
+        }
       }
       el.innerHTML = html;
       plan.appendChild(el);
