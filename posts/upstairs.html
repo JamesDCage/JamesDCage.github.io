@@ -62,6 +62,32 @@
       fill: none;
     }
 
+    /* Full-window photo viewer */
+    .lightbox {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.93);
+      cursor: zoom-out;
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox img {
+      display: block;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      object-fit: contain;   /* fill the window, keep aspect ratio */
+    }
+    .lightbox .caption {
+      position: absolute;
+      left: 50%;
+      bottom: 0.5em;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 16px;
+      text-shadow: 0 0 4px #000;
+    }
+
     /* Blue bedroom labels */
     .room-label {
       position: absolute;
@@ -156,6 +182,35 @@
     var plan = document.getElementById('plan');
     var i, m, el, html;
 
+    // Full-window photo viewer: clicking a number shows its photo scaled
+    // to fill the visible window instead of loading the raw jpg file.
+    var lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.hidden = true;
+    lightbox.innerHTML = '<img alt=""><span class="caption"></span>';
+    document.body.appendChild(lightbox);
+    var lightboxImg = lightbox.getElementsByTagName('img')[0];
+    var lightboxCaption = lightbox.getElementsByTagName('span')[0];
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxImg.removeAttribute('src');
+    }
+    lightbox.onclick = closeLightbox;
+    document.addEventListener('keydown', function (e) {
+      if (e.keyCode === 27) { closeLightbox(); }
+    });
+
+    function markerClick(e) {
+      // Let modified clicks (new tab, etc.) reach the raw file as usual.
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) { return; }
+      e.preventDefault();
+      lightboxImg.src = this.href;
+      lightboxImg.alt = this.title;
+      lightboxCaption.textContent = this.title;
+      lightbox.hidden = false;
+    }
+
     for (i = 0; i < MARKERS.length; i++) {
       m = MARKERS[i];
       el = document.createElement('a');
@@ -164,6 +219,7 @@
       el.title = 'Photo ' + pad3(m.n);
       el.style.left = m.x + '%';
       el.style.top = m.y + '%';
+      el.onclick = markerClick;
       html = '<span class="num">' + m.n + '</span>';
       if (typeof m.a === 'number') {
         html += ARROW_SVG.replace('DEG', m.a);
