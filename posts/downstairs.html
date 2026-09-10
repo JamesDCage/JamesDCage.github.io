@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tybee House — Upstairs Photo Map</title>
+  <title>Tybee House — Downstairs Photo Map</title>
   <style>
     body {
       margin: 0;
@@ -15,11 +15,11 @@
        as percentages of it, so everything scales together.
        Width is capped so the full plan fits the visible window:
        no wider than the viewport, no taller than its height
-       (image aspect ratio 3176/2680), no larger than native size. */
+       (image aspect ratio 2712/2672), no larger than native size. */
     .plan-wrap {
       position: relative;
-      width: min(100vw, calc(100vh * (3176 / 2680)), 3176px);
-      width: min(100vw, calc(100dvh * (3176 / 2680)), 3176px);
+      width: min(100vw, calc(100vh * (2712 / 2672)), 2712px);
+      width: min(100vw, calc(100dvh * (2712 / 2672)), 2712px);
       margin: 0 auto;
       container-type: inline-size;
       font-size: 24px;     /* fallback if container units unsupported */
@@ -129,11 +129,11 @@
 </head>
 <body>
   <div class="plan-wrap" id="plan">
-    <img src="images/Tybee/Tybee 073.jpg" alt="Upstairs floorplan of the Tybee house">
-    <a class="stair-btn" href="downstairs.html" title="Go downstairs"
-       style="left: 18.2%; top: 93.5%;" aria-label="Go downstairs">
+    <img src="images/Tybee/Tybee 072.jpg" alt="Downstairs floorplan of the Tybee house">
+    <a class="stair-btn" href="upstairs.html" title="Go upstairs"
+       style="left: 6.8%; top: 93.5%;" aria-label="Go upstairs">
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3 L12 20 M12 20 L5 13 M12 20 L19 13"></path>
+        <path d="M12 21 L12 4 M12 4 L5 11 M12 4 L19 11"></path>
       </svg>
     </a>
   </div>
@@ -147,56 +147,30 @@
     // a = arrow direction in degrees (0 = up/north, 90 = right/east, clockwise).
     // Omit `a` for a number with no direction arrow.
     var MARKERS = [
-      { n: 62, x:  4.5, y:  4.0, a: 180 },
-      { n:  4, x: 12.4, y:  4.0, a: 225 },
-      { n: 16, x: 18.5, y:  5.3, a: 100 },
-      { n: 17, x: 42.0, y:  3.6, a: 180 },
-      { n: 19, x: 47.0, y:  4.4, a: 225 },
-      { n: 21, x: 56.4, y:  4.0, a:  90 },
-      { n: 24, x: 66.3, y:  4.0, a: 135 },
-      { n: 25, x: 81.0, y:  4.4, a: 225 },
-      { n: 18, x: 32.0, y: 12.1, a:  90 },
-      { n: 20, x: 52.0, y: 15.7, a:  15 },
-      { n: 22, x: 65.9, y: 12.1, a:  90 },
-      { n: 23, x: 66.5, y: 19.6, a:  45 },
-      { n: 26, x: 75.7, y: 25.0, a: 180 },
-      { n: 48, x: 59.0, y: 24.0 },
-      { n: 45, x: 44.5, y: 25.8 },
-      { n: 46, x: 36.0, y: 28.0, a:  90 },
-      { n: 47, x: 44.8, y: 31.4, a:   0 },
-      { n: 44, x: 50.0, y: 30.8, a:  30 },
-      { n: 27, x: 71.0, y: 33.8, a:  90 },
-      { n: 42, x: 36.3, y: 41.5, a:  45 },
-      { n: 43, x: 44.0, y: 41.5, a:   0 },
-      { n: 41, x: 52.0, y: 41.5, a: 315 },
-      { n: 12, x: 24.0, y: 46.2, a:   0 },
-      { n: 13, x: 28.8, y: 51.0, a:  45 },
-      { n: 33, x: 36.8, y: 48.0, a: 135 },
-      { n:  0, x: 44.5, y: 47.1, a: 135 },
-      { n: 28, x: 71.0, y: 50.4, a: 135 },
-      { n: 34, x: 50.0, y: 56.3, a:   0 },
-      { n: 15, x: 28.5, y: 68.7, a: 190 },
-      { n:  3, x: 67.8, y: 69.9, a:  45 },
-      { n: 32, x: 83.0, y: 69.3, a:   0 },
-      { n: 11, x: 24.8, y: 78.8, a: 150 },
-      { n: 37, x: 53.6, y: 77.5, a: 225 },
-      { n: 38, x: 48.0, y: 80.0, a:   0 },
-      { n: 29, x: 78.5, y: 78.2, a: 170 },
-      { n: 30, x: 73.8, y: 81.8, a: 135 },
-      { n: 36, x: 53.5, y: 85.9, a: 270, pre: true },
-      { n: 40, x: 60.5, y: 88.3 },
-      { n: 35, x: 50.8, y: 93.2, a: 315 },
-      { n: 39, x: 60.5, y: 94.8 },
-      { n: 31, x: 73.3, y: 94.2, a:  45 }
+      { n: 60, x:  7.7, y:  6.6, a:  90 },
+      { n: 61, x: 15.2, y: 11.8, a:  90 },
+      { n: 54, x: 68.1, y: 18.5, a:  45 },
+      { n: 49, x: 62.2, y: 23.8, a: 180 },
+      { n: 50, x: 71.9, y: 24.0, a: 225 },
+      { n: 55, x: 88.3, y: 24.0, a: 270, pre: true },
+      { n: 56, x: 89.6, y: 27.3 },
+      { n: 58, x: 54.7, y: 35.8, a: 315 },
+      { n: 53, x: 66.0, y: 41.4, a:  45 },
+      { n: 52, x: 68.0, y: 47.2, a: 135 },
+      { n: 57, x: 76.2, y: 47.2, a: 180 },
+      { n: 51, x: 68.3, y: 52.3, a:  90 },
+      { n: 59, x: 10.4, y: 59.4, a:   0 },
+      { n:  8, x: 38.5, y: 76.5, a: 225 },
+      { n: 64, x: 54.4, y: 74.7, a: 135 },
+      { n: 10, x: 21.6, y: 93.2, a: 315 },
+      { n:  9, x: 38.5, y: 93.6, a: 315 },
+      { n: 65, x: 48.4, y: 91.0, a:  90 }
     ];
 
     // Blue bedroom labels.
     var LABELS = [
-      { text: 'BQ',   x: 41.5, y: 14.8 },
-      { text: 'BK',   x: 77.3, y: 14.8 },
-      { text: 'FK',   x: 44.0, y: 38.5 },
-      { text: 'FT',   x: 79.5, y: 38.5 },
-      { text: 'MONK', x: 43.0, y: 90.0 }
+      { text: 'LQ', x: 78.0, y: 16.5 },
+      { text: 'LT', x: 78.0, y: 58.5 }
     ];
 
     var ARROW_SVG =
