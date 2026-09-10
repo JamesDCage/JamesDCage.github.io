@@ -12,10 +12,14 @@
     }
 
     /* Wrapper matches the floorplan image; markers are positioned
-       as percentages of it, so everything scales together. */
+       as percentages of it, so everything scales together.
+       Width is capped so the full plan fits the visible window:
+       no wider than the viewport, no taller than its height
+       (image aspect ratio 3176/2680), no larger than native size. */
     .plan-wrap {
       position: relative;
-      max-width: 3176px;   /* native width of Tybee 073.jpg */
+      width: min(100vw, calc(100vh * (3176 / 2680)), 3176px);
+      width: min(100vw, calc(100dvh * (3176 / 2680)), 3176px);
       margin: 0 auto;
       container-type: inline-size;
       font-size: 24px;     /* fallback if container units unsupported */
